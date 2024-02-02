@@ -22,18 +22,42 @@
             <button class="btn btn-outline-success" type="submit">Cari</button>
           </form>
           
-          <router-link to="/login" class="btn btn-outline-primary ms-2" exact>Login</router-link>
+          <router-link v-if="!auth" to="/login" class="btn btn-outline-primary ms-2" exact>Login</router-link>
+          <a v-if="auth" class="btn btn-outline-danger ms-2" >Logout</a>
         </div>
       </div>
     </nav>
+    
     <router-view></router-view>
   </div>
 </template>
 
 <script>
-export default {
-  
-}
+  export default {
+    data() {
+      return {
+        auth: null,
+        loading: true,
+      };
+    },
+    methods: {
+      async getAuth() {
+        try {
+         
+          this.auth = 'elan'
+        } catch (error) {
+          console.error('Error fetching user data', error);
+        } finally {
+          // Set loading to false whether the request succeeds or fails
+          this.loading = false;
+        }
+      },
+    },
+    mounted() {
+      // Call the getAuth method when the component is mounted
+      this.getAuth();
+    },
+  };
 </script>
 
 <style scoped>

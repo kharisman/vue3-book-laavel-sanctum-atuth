@@ -52,9 +52,15 @@ export default {
         // Assuming your Laravel Sanctum returns an API token
         console.log(response.data.data);
         const token = response.data.data.token;
+        if (token){   
+          localStorage.setItem('token', token);
+          const res= await axios.get('user')
+          
+          console.log(res.data.data);
+          localStorage.setItem('username', res.data.data.username);
+        }
 
         // Store the token in local storage or Vuex store
-        localStorage.setItem('token', token);
 
         // Redirect or perform any other actions after successful login
         // console.log('Login successful');
