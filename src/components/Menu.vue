@@ -29,6 +29,16 @@
         >
           <a class="nav-link">Soal</a>
         </router-link>
+
+        <router-link
+          :to="{ name: 'kategori' }"
+          tag="li"
+          class="nav-item"
+          exact
+          active-class="active"
+        >
+          <a class="nav-link">Kategori</a>
+        </router-link>
   
         
       </ul> 

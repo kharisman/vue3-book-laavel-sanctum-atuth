@@ -4,13 +4,16 @@
     <div class="card">
     <div class="card-body">
         <h5 class="card-title">{{ data.name }}</h5>
-        <p class="card-text">{{ data.status }}</p>
+        <!-- <p class="card-text">{{ data.status }}</p> -->
         <!-- <a href="#" class="btn btn-primary">Lihat Soal</a> -->
         <router-link :to="generateDynamicLink(data.id)" class="btn btn-primary">
           Lihat Soal
         </router-link>
 
         <button @click="openEditModal(data)" class="btn btn-secondary">Edit</button>
+
+        <button @click="confirmDelete(data.id)" class="btn btn-danger">Delete</button>
+      
      
     </div>
     </div>
@@ -33,7 +36,19 @@ export default {
         console.log(data);
         this.$emit('edit', data);
         },
+
+        confirmDelete(id) {
+        const isConfirmed = window.confirm('Are you sure you want to delete this item?');
+
+        if (isConfirmed) {
+            // Emit an event to the parent component to handle the delete action
+            console.log(id);
+            this.$emit('delete',id);
+        }
+        },
     },
+
+    
 
     
 };

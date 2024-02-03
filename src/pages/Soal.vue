@@ -9,7 +9,7 @@
 
             <button @click="openModal" class="btn btn-primary mb-3">Tambah Soal</button>
 
-            <div v-if="!loading" class="row"> <Soal v-for="x in kuis" :key="x.id" :data="x"  @edit="editSoal" />  </div>
+            <div v-if="!loading" class="row"> <Soal v-for="x in kuis" :key="x.id" :data="x"  @edit="editSoal"  @delete="deleteSoal"/>  </div>
             <div v-else><Loading/></div>
         </div>
       </div>
@@ -54,7 +54,6 @@
 </template>
   
   <script>
-  import { reactive } from 'vue'; 
   import Menu from '@/components/Menu.vue'
   import Soal from '@/components/Soal.vue'
   import axios from '@/axios'; // Adjust the path based on your project structure
@@ -85,11 +84,11 @@
         try {
           const response = await axios.get('kuis');
           this.kuis = response.data.data; // Assuming the data property holds the kuis array
-          console.log(this.kuis);
+          // console.log(this.kuis);
         } catch (error) {
           console.error("Error fetching kuis:", error);
         } finally {
-          console.log(121);
+          // console.log(121);
           this.loading=false;
         }
       },
@@ -183,7 +182,31 @@
             // Handle other types of errors
           }
         }
+      },
+
+      async deleteSoal(id) {
+      try {
+        const response = await axios.post('kuis/delete', {
+          id:id,
+        });
+        // Handle successful deletion, update your kuis array, etc.
+        // Find the index of the deleted item in the kuis array
+        const index = this.kuis.findIndex(soal => soal.id === id);
+
+        if (index !== -1) {
+          // Create a new array without the deleted item
+          const updatedKuis = [...this.kuis.slice(0, index), ...this.kuis.slice(index + 1)];
+
+          // Assign the updated array to maintain reactivity
+          this.kuis = updatedKuis;
+        }
+
+        console.log('Soal deleted successfully:', response.data);
+      } catch (error) {
+        console.error('Error deleting soal:', error);
+        // Handle error, display a message, etc.
       }
+    },
 
     },
     mounted() {

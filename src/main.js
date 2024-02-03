@@ -10,9 +10,15 @@ import Dashboard from '@/pages/Dashboard.vue'
 import Info from '@/pages/Info.vue'
 import Soal from '@/pages/Soal.vue'
 import SoalDetail from '@/pages/SoalDetail.vue'
+import Kategori from '@/pages/Kategori.vue'
 
 import { authGuard } from '@/authGuard';
 import { guestGuard } from '@/guestGuard';
+
+
+
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 
 const routes = [
     { path: '/', component: Home, meta: { requiresAuth: false }, beforeEnter: authGuard },
@@ -22,6 +28,7 @@ const routes = [
     { path: '/dashboard', name:'dashboard' , component: Dashboard, meta: { requiresAuth: true }, beforeEnter: authGuard },
     { path: '/dashboard/info', name:'info', component: Info, meta: { requiresAuth: true }, beforeEnter: authGuard },
     { path: '/dashboard/soal', name:'soal', component: Soal, meta: { requiresAuth: true }, beforeEnter: authGuard },
+    { path: '/dashboard/kategori', name:'kategori', component: Kategori, meta: { requiresAuth: true }, beforeEnter: authGuard },
     { path: '/dashboard/soal/:id', name:'soalDetail', component: SoalDetail, meta: { requiresAuth: true }, beforeEnter: authGuard },
 
     
@@ -36,6 +43,8 @@ const routes = [
 
 
 const app = createApp(App)
+app.use(VueSweetalert2);
+
 app.use(router);
 app.mount('#app')
 
